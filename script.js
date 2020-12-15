@@ -11,22 +11,33 @@ const btnNew = document.querySelector('.btn--new');
 const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
 
-const scores = [0, 0];
-let currentScore = 0;
-let activePlayer = 0;
-let gameOn = true;
+let scores, currentScore, activePlayer, gameOn;
 
-score0El.textContent = 0;
-score1El.textContent = 0;
-diceEL.classList.add('hidden');
+const init = function () {
+  scores = [0, 0];
+  currentScore = 0;
+  activePlayer = 0;
+  gameOn = true;
+
+  score0El.textContent = 0;
+  score1El.textContent = 0;
+  currentScorePl1.textContent = 0;
+  currentScorePl2.textContent = 0;
+
+  diceEL.classList.add('hidden');
+  player0El.classList.remove('player--winner');
+  player1El.classList.remove('player--winner');
+  player0El.classList.add('player--active');
+  player1El.classList.remove('player--active');
+};
+
+init();
 
 const switchPlayer = function () {
   document.getElementById(`current--${activePlayer}`).textContent = 0;
   currentScore = 0;
   activePlayer = activePlayer === 0 ? 1 : 0;
 
-  // toggle makes sure that one class gets hidden, when the other gets activated.
-  // Player 0 looses active, while player 1 gets it
   player0El.classList.toggle('player--active');
   player1El.classList.toggle('player--active');
 };
@@ -70,23 +81,4 @@ btnHold.addEventListener('click', function () {
   }
 });
 
-btnNew.addEventListener('click', function () {
-  gameOn = true;
-  currentScore = 0;
-  scores[0] = 0;
-  scores[1] = 0;
-  score0El.textContent = 0;
-  score1El.textContent = 0;
-  currentScorePl1.textContent = 0;
-  currentScorePl2.textContent = 0;
-  console.log(scores[0]);
-  player0El.classList.contains('player--winner')
-    ? player0El.classList.remove('player--winner')
-    : player1El.classList.remove('player--winner');
-
-  diceEL.classList.add('hidden');
-  player0El.classList.add('player--active');
-  player1El.classList.remove('player--active');
-
-  console.log(scores);
-});
+btnNew.addEventListener('click', init);
